@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace DataAccess.Entities
+namespace WEB.Models
 {
-	public class Dish
+	public class DishViewModel
 	{
         public int Id { get; set; }
 
@@ -11,15 +14,15 @@ namespace DataAccess.Entities
         public string Title { get; set; }
 
         public string Ingredients { get; set; }
-
+      
         public string Description { get; set; }
-
+       
         public decimal Price { get; set; }
-
+       
         public int Weight { get; set; }
-
+     
         public decimal Calories { get; set; }
-
+     
         public int TimeToMake { get; set; }
     }
 }

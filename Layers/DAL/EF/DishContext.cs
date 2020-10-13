@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using DAL.Entities;
+using DataAccess.Entities;
 
-namespace DAL.EF
+namespace DataAccess.EF
 {
-	class DishContext: DbContext
+	public class DishContext: DbContext
     {
         public DbSet<Dish> Dishes { get; set; }
 

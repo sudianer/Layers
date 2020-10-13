@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using DAL.Entities;
-using DAL.Interfaces;
-using DAL.EF;
+using DataAccess.Entities;
+using DataAccess.Interfaces;
+using DataAccess.EF;
 
 
-namespace DAL.Repositories
+namespace DataAccess.Repositories
 {
-	class DishRepository: IRepository<Dish>
+	public class DishRepository: IRepository<Dish>
 	{
 		private DishContext db;
 

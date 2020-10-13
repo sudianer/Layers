@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BLL.DTO
+namespace BusinessLogic.DTO
 {
 	public class DishDTO
 	{

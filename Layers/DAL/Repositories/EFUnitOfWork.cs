@@ -1,11 +1,11 @@
 ﻿using System;
-using DAL.Interfaces;
-using DAL.EF;
-using DAL.Entities;
+using DataAccess.Interfaces;
+using DataAccess.EF;
+using DataAccess.Entities;
 
-namespace DAL.Repositories
+namespace DataAccess.Repositories
 {
-	class EFUnitOfWork: IUnitOfWork
+	public class EFUnitOfWork: IUnitOfWork
 	{
 		private DishContext db;
 		private DishRepository dishRepository;

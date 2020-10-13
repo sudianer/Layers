@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using BLL.DTO;
-using BLL.Interfaces;
-using DAL.Interfaces;
-using DAL.Entities;
-using BLL.Infrastructure;
+using BusinessLogic.DTO;
+using BusinessLogic.Interfaces;
+using DataAccess.Interfaces;
+using DataAccess.Entities;
+using BusinessLogic.Infrastructure;
 using System.Collections.Generic;
 
-namespace BLL.Services
+namespace BusinessLogic.Services
 {
 	public class MenuService: IMenuService
 	{
@@ -32,6 +32,7 @@ namespace BLL.Services
 			Database.Dishes.Create(dish);
 			Database.Save();
 		}
+
 		public DishDTO GetDish(int? id)
 		{
 			if (id == null)
@@ -55,6 +56,7 @@ namespace BLL.Services
 				Weight = dish.Weight
 			};
 		}
+
 		public void Dispose()
 		{
 			Database.Dispose();

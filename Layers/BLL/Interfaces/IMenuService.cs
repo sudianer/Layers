@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using BLL.DTO;
+using BusinessLogic.DTO;
 
-namespace BLL.Interfaces
+namespace BusinessLogic.Interfaces
 {
 	public interface IMenuService
 	{

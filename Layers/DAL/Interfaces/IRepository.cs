@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DAL.Interfaces
+namespace DataAccess.Interfaces
 {
 	public interface IRepository<T> where T: class
 	{
