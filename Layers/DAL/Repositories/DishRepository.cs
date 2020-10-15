@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using DataAccess.Entities;
-using DataAccess.Interfaces;
 using DataAccess.EF;
 
 
 namespace DataAccess.Repositories
 {
-	public class DishRepository: IRepository<Dish>
+	public class DishRepository
 	{
 		private DishContext db;
 

@@ -1,5 +1,4 @@
 ﻿using Ninject.Modules;
-using DataAccess.Interfaces;
 using DataAccess.Repositories;
 
 namespace BusinessLogic.Infrastructure
@@ -13,7 +12,7 @@ namespace BusinessLogic.Infrastructure
 		}
 		public override void Load()
 		{
-			Bind<IUnitOfWork>().To<EFUnitOfWork>().WithConstructorArgument(connectionString);
+			Bind<EFUnitOfWork>().To<EFUnitOfWork>().WithConstructorArgument(connectionString);
 		}
 	}
 }

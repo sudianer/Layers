@@ -1,16 +1,15 @@
 ﻿using System;
-using DataAccess.Interfaces;
 using DataAccess.EF;
 using DataAccess.Entities;
 
 namespace DataAccess.Repositories
 {
-	public class EFUnitOfWork: IUnitOfWork
+	public class EFUnitOfWork
 	{
 		private DishContext db;
 		private DishRepository dishRepository;
 
-		public IRepository<Dish> Dishes
+		public DishRepository Dishes
 		{
 			get
 			{

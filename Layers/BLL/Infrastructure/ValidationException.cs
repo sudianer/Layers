@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace BusinessLogic.Infrastructure
 {
 	class ValidationException: Exception
