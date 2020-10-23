@@ -42,9 +42,10 @@ namespace DataAccess.Repositories
 			return db.Dishes.Where(predicate).ToList();
 		}
 		
-		public void Delete(int id)
+		public void Delete(int? id)
 		{
 			Dish dish = db.Dishes.Find(id);
+			
 			if (dish != null)
 				db.Dishes.Remove(dish);
 		}

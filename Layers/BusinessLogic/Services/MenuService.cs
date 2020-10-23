@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using BusinessLogic.DTO;
 using BusinessLogic.Infrastructure;
 using DataAccess.Repositories;
 using DataAccess.Entities;
-using System.Linq;
-using System;
 
 namespace BusinessLogic.Services
 {
@@ -29,7 +28,7 @@ namespace BusinessLogic.Services
 			
 			if (!IsTitleUnique(dishDto.Title, GetDishes()))
 			{
-				throw new ValidationException("Название уже существует", "Title");				
+				throw new BLValidationException("Название уже существует", "Title");				
 			}
 
 			dishDto.CreationDate = DateTime.Now;
@@ -42,12 +41,12 @@ namespace BusinessLogic.Services
 		public DishDTO GetDish(int? id)
 		{
 			if (id == null)
-				throw new ValidationException("Не устновлен id блюда", "");
+				throw new BLValidationException("Не устновлен id блюда", "ID");
 
 			var dish = Database.Dishes.Get(id.Value);
 
 			if (dish == null)
-				throw new ValidationException("Блюдо не найдено", "");
+				throw new BLValidationException("Блюдо не найдено", "");
 
 			return new DishDTO
 			{
@@ -63,11 +62,29 @@ namespace BusinessLogic.Services
 			};
 		}
 
+		public void EditDish(DishDTO dish)
+		{
+			if (!IsTitleUnique(dish.Title, GetDishes()) || !IsTitleChanged(dish.Title, dish.Id, GetDishes()))
+			{
+				throw new BLValidationException("Такое название уже существует", "Title");				
+			}
+
+			Database.Dishes.Update(DTOtoDish(dish));
+			Database.Save();			
+		}
+
+		public void DeleteDish(int? id)
+		{
+			if (id == null)
+				throw new BLValidationException("Не устновлен id блюда", "ID");
+
+			Database.Dishes.Delete(id);
+		}
+
 		public void Dispose()
 		{
 			Database.Dispose();
 		}
-
 
 		private Dish DTOtoDish(DishDTO dishDTO)
 		{
@@ -105,19 +122,17 @@ namespace BusinessLogic.Services
 		/// <summary>
 		/// Проверяет, изменилялось ли название
 		/// </summary>
-		private bool IsTitleNotChanged(string title, int id, List<DishDTO> dishes)
+		private bool IsTitleChanged(string title, int id, IEnumerable<DishDTO> dishes)
 		{
 			foreach (DishDTO dish in dishes)
 			{
 				if (dish.Id == id && dish.Title.Trim().ToLower() == title.Trim().ToLower())
 				{
-					return true;
+					return false;
 				}
 			}
 
-			return false;
+			return true;
 		}
-	
-	
 	}
 }

@@ -1,0 +1,46 @@
+﻿@model RestorauntMenu.Data.Models.Dish
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<h2>Блюдо: "@Model.Title"</h2>
+<div>
+    <div class="form-group">
+        <label asp-for="CreationDate" class="control-label">Дата создания</label>
+        <input type="datetime" asp-for="CreationDate" class="form-control" maxlength="17" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="Title" class="control-label">Название</label>
+        <input type="text" asp-for="Title" class="form-control" required maxlength="255" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="Description" class="control-label">Описание</label>
+        <input type="text" asp-for="Description" class="form-control" maxlength="500" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="Ingredients" class="control-label">Состав</label>
+        <input type="text" asp-for="Ingredients" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="Price" class="control-label">Цена</label>
+        <input type="text" asp-for="Price" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="Weight" class="control-label">Граммовка</label>
+        <input type="text" asp-for="Weight" class="form-control" readonly/>
+    </div>
+    <div class="form-group">
+        <label asp-for="Calories" class="control-label">Калорийность</label>
+        <input type="text" asp-for="Calories" class="form-control" readonly/>
+    </div>
+    <div class="form-group">
+        <label asp-for="TimeToMake" class="control-label">Время приготовления</label>
+        <input type="text" asp-for="TimeToMake" class="form-control" readonly />
+    </div>
+    <form asp-controller="Home" asp-action="Details" method="post">
+        <div class="form-group">
+            <input type="submit" class="btn btn-default" value="Вернуться" />
+        </div>
+    </form>
+
+</div>

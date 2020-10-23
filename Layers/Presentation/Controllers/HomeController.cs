@@ -10,7 +10,7 @@ using BusinessLogic.DTO;
 using AutoMapper;
 using System.ComponentModel.DataAnnotations;
 
-namespace RestorauntMenu.Controllers
+namespace WEB.Controllers
 {
 	/// <summary>
 	/// Контроллер главной страницы
@@ -93,11 +93,11 @@ namespace RestorauntMenu.Controllers
 		{			
 			try 
 			{ 
-				MenuService.MakeDish(MakeDishDTO(dish));
+				MenuService.MakeDish(DishVMtoDTO(dish));
 			}
-			catch(ValidationException ex)
+			catch(BLValidationException ex)
 			{
-				ModelState.AddModelError("Title", ex.Message);
+				ModelState.AddModelError(ex.Property, ex.Message);
 			}
 			return RedirectToAction("Index");
 		}
@@ -122,6 +122,7 @@ namespace RestorauntMenu.Controllers
 		public async Task<IActionResult> Edit(int? id)
 		{
 			DishViewModel dish = GetDishViewModel(id);
+
 			return View(dish);
 		}
 
@@ -131,21 +132,18 @@ namespace RestorauntMenu.Controllers
 		/// <param name="dish"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public async Task<IActionResult> Edit(Dish dish)
+		public async Task<IActionResult> Edit(DishViewModel dish)
 		{
-			List<Dish> dishes = _db.Dish.AsNoTracking().ToList();
-
-			if (!(IsTitleUnique(dish.Title, dishes) || IsTitleNotChanged(dish.Title, dish.Id, dishes)))
+			try
 			{
-				ModelState.AddModelError("Title", "Такое имя уже существует");
-
-				return RedirectToAction("Index");
+				MenuService.EditDish(DishVMtoDTO(dish));
+			}
+			catch(BLValidationException ex)
+			{
+				ModelState.AddModelError(ex.Property, ex.Message);
 			}
 
-			_db.Dish.Update(dish);
-			await _db.SaveChangesAsync();
-
-			return View(dish);
+			return RedirectToAction("Index");
 		}
 
 		/// <summary>
@@ -157,18 +155,17 @@ namespace RestorauntMenu.Controllers
 		[HttpGet]
 		public async Task<IActionResult> DeleteDish(int? id)
 		{
-			if (id == null)
-				return NotFound();
-
-			Dish dish = await _db.Dish.FirstOrDefaultAsync(p => p.Id == id);
-
-			_db.Entry(dish).State = EntityState.Deleted;
-			await _db.SaveChangesAsync();
+			try
+			{
+				MenuService.DeleteDish(id);
+			}
+			catch(BLValidationException ex)
+			{
+				ModelState.AddModelError(ex.Property, ex.Message);
+			}
 
 			return RedirectToAction("Index");
 		}
-
-		
 
 		private IEnumerable<DishViewModel> GetDishViewModels()
 		{
@@ -180,13 +177,23 @@ namespace RestorauntMenu.Controllers
 
 		private DishViewModel GetDishViewModel(int? id)
 		{
-			DishDTO dishDto = MenuService.GetDish(id);
-			var mapper = new MapperConfiguration(cfg => cfg.CreateMap<DishDTO, DishViewModel>()).CreateMapper();
-			DishViewModel dish = mapper.Map<DishDTO, DishViewModel>(dishDto);
+			DishViewModel dish = new DishViewModel();
+
+			try
+			{
+				DishDTO dishDto = MenuService.GetDish(id);
+				var mapper = new MapperConfiguration(cfg => cfg.CreateMap<DishDTO, DishViewModel>()).CreateMapper();
+				dish = mapper.Map<DishDTO, DishViewModel>(dishDto);
+			}
+			catch (BLValidationException ex)
+			{
+				ModelState.AddModelError(ex.Property, ex.Message);
+			}
+
 			return dish;
 		}
 			
-		private DishDTO MakeDishDTO(DishViewModel dish)
+		private DishDTO DishVMtoDTO(DishViewModel dish)
 		{
 			return new DishDTO
 			{
@@ -201,10 +208,5 @@ namespace RestorauntMenu.Controllers
 				Weight = dish.Weight
 			};
 		}
-
 	}
-
-
-
-
 }

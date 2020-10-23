@@ -2,10 +2,10 @@
 
 namespace BusinessLogic.Infrastructure
 {
-	class ValidationException: Exception
+	public class BLValidationException: Exception
 	{
 		public string Property { get; protected set; }
-		public ValidationException(string message, string property): base(message)
+		public BLValidationException(string message, string property): base(message)
 		{
 			Property = property;
 		}
